@@ -1,0 +1,9 @@
+export { Shape } from './Shape.js';
+export { Rect } from './Rect.js';
+export { Circle } from './Circle.js';
+export { Ellipse } from './Ellipse.js';
+export { Line } from './Line.js';
+export { Text } from './Text.js';
+export { Group } from './Group.js';
+export { ShapeFactory } from './ShapeFactory.js';
+export { SvgDocument } from './SvgDocument.js';
