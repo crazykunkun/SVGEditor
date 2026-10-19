@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+coverage/
+.Codex/
+demo.svg
+flowchart.svg
+*.tmp
