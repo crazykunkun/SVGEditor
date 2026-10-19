@@ -1,0 +1,112 @@
+SVG Editor Phase 1 verification
+2026-10-19T15:03:08.657473+08:00 (Asia/Shanghai)
+Environment: v26.8.2; npm 11.19.1
+Fresh install: npm ci --registry=https://registry.npmjs.org completed; audit found0 vulnerabilities.
+
+$ npm run check
+
+> svg-editor-cli@0.1.0 check
+> npm run test && node dist/tools/ArchitectureCheck.js
+
+
+> svg-editor-cli@0.1.0 test
+> npm run build && node --test dist/test/*.test.js
+
+
+> svg-editor-cli@0.1.0 build
+> tsc -p tsconfig.json
+
+✔ tokenizer retains Unicode, empty strings, colors and escaped quotes/backslashes (0.717333ms)
+✔ help works before initialization and document commands report the document guard (0.565375ms)
+✔ a complete editing session exercises all required commands and Composite behavior (4.815708ms)
+✔ display commands leave undo/redo intact and top-level ungroup is rejected (0.182875ms)
+✔ read warnings publish only on success; failed reads/writes preserve path, document and history (0.653708ms)
+✔ init clears the remembered save path, and each successful I/O operation is a history barrier (0.219833ms)
+✔ bad arguments, syntax and finite-number validation leave the redo branch unchanged (0.418917ms)
+✔ real CLI reads piped commands until EOF and round-trips Unicode with spaced paths (40.476292ms)
+✔ real CLI supports --script, startup help, script error status and exit commands (184.589375ms)
+✔ factory creates six polymorphic types without adding optional styles (1.504375ms)
+✔ all geometric properties scale and move with the SVG coordinate convention (0.873375ms)
+✔ geometry failures validate the whole subtree before writing (0.424458ms)
+✔ set validates type geometry and common style whitelist atomically (0.119833ms)
+✔ document IDs are unique throughout subtrees and remain case sensitive (0.209916ms)
+✔ an imported SVG root id remains reserved for later editing and snapshots (0.201541ms)
+✔ grouping uses document preorder and the first selected node parent (0.1565ms)
+✔ ancestor grouping, duplicate requests, and missing IDs leave the tree unchanged (0.136666ms)
+✔ ungroup splices children into the same sibling position and rejects root groups (0.241125ms)
+✔ ungroup retains inherited styles and composes transforms without overriding child styles (0.745709ms)
+✔ ungroup refuses composite opacity/filter effects atomically instead of changing rendering (0.211834ms)
+✔ reparenting forbids cycles and appends without changing geometry (0.344417ms)
+✔ front and back reorder siblings and delete removes whole subtrees (0.538541ms)
+✔ clones have independent geometry, content, hierarchy, styles, and root metadata (0.351542ms)
+✔ import preserves presentation data and local transforms while set stays strict (0.213208ms)
+✔ invalid canvas geometry and failed resizing preserve dimensions (0.103125ms)
+✔ execute, undo and redo each preserve independent document snapshots (1.042709ms)
+✔ a successful edit after undo truncates the redo branch (0.322291ms)
+✔ failed commands cannot alter the document, undo stack or redo branch (0.12875ms)
+✔ I/O barriers block both directions until a successful edit (0.224958ms)
+✔ group and ungroup are single undo units preserving parents and ordering (0.843166ms)
+✔ invalid ancestor grouping leaves existing history and trees untouched (0.220875ms)
+✔ delete undo restores a complete subtree at its original sibling index (0.4655ms)
+✔ addto and z-order commands are reversible and remain scoped to their parent (0.771417ms)
+✔ attribute and text edits restore absent and previous values (0.411667ms)
+✔ command validation rejects extra arguments and invalid numeric input (0.419542ms)
+✔ assignment flowchart transcript runs through the real CLI and saves a browser SVG (46.376458ms)
+✔ all editing commands preserve hierarchy, sibling order, subtree history and case-sensitive ids (41.811375ms)
+✔ failed edits and reads preserve document and redo, and new edits invalidate redo (39.65875ms)
+✔ document commands enforce history barriers; save remembers read path; display does not edit history (40.601708ms)
+✔ script mode reports required error cases, keeps running, and returns a failing status (40.27775ms)
+✔ SVG round trip retains all six shape types, nesting, transforms, root metadata and Unicode (3.987209ms)
+✔ generated ids reserve later explicit ids, including nested and root ids (0.416583ms)
+✔ SVG namespace prefixes, comments and mixed CDATA/text preserve supported text (0.2575ms)
+✔ malformed XML, duplicate ids, foreign/unknown tags and unsupported structure are rejected (1.034ms)
+✔ file writes replace the completed file and preserve permissions (1.149708ms)
+✔ event handlers and active/external URL attributes are rejected on import and export (0.455916ms)
+✔ file failures have the required messages and clean up failed save temporaries (0.699792ms)
+✔ saving over a readonly file fails without changing its bytes or leaving a temporary (0.406458ms)
+ℹ tests 48
+ℹ suites 0
+ℹ pass 48
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 285.951
+Architecture checks passed (34 source files; imports, class layout, no free functions).
+
+Exit status: 0
+
+$ npm run demo
+
+> svg-editor-cli@0.1.0 demo
+> npm run cli -- --script examples/flowchart.commands
+
+
+> svg-editor-cli@0.1.0 cli
+> node --import tsx src/main.ts --script examples/flowchart.commands
+
+svg-editor 0.1 — type 'help' for commands
+canvas 800x600 created
+g#flowchart created
+g#node1 created in g#flowchart
+rect#start created in g#node1
+text#start-label created in g#node1
+g#node2 created in g#flowchart
+rect#process created in g#node2
+text#process-label created in g#node2
+line#arrow1 created in g#flowchart
+svg (800x600)
+└── g#flowchart
+    ├── g#node1
+    │   ├── rect#start  x=120 y=100 w=160 h=60  fill=#4a90d9
+    │   └── text#start-label  (155,135) "开始"
+    ├── g#node2
+    │   ├── rect#process  x=520 y=100 w=160 h=60  fill=#f5a623
+    │   └── text#process-label  (545,135) "处理数据"
+    └── line#arrow1  (280,130) -> (520,130)  stroke=black
+g#node2 moved by (0,100)
+g#node2 moved back by (0,-100)
+text#process-label updated: text="处理数据 v2"
+saved to flowchart.svg (8 elements)
+
+Exit status: 0

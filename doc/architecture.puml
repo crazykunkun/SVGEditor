@@ -1,0 +1,21 @@
+@startuml
+title SVG Editor — Phase 1 package dependencies
+skinparam componentStyle rectangle
+package "main (composition root)" as main
+package "cli\nTokenizer / CommandRegistry / DocumentPresenter / CliRunner" as cli
+package "application\nEditorSession / EditCommand / CommandHistory / CommandRecord" as app
+package "ports\nFilePort / SvgPort" as ports
+package "infrastructure\nNodeFileStore / SvgCodec" as infra
+package "domain\nSvgDocument / Shape / Group / leaves / ShapeFactory" as domain
+main --> cli
+main --> app
+main --> infra
+cli --> app
+cli --> domain
+cli --> ports
+app --> domain
+app --> ports
+ports --> domain
+infra --> ports
+infra --> domain
+@enduml
